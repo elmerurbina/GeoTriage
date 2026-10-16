@@ -20,6 +20,7 @@ const SEV_STYLE: Record<Severity, string> = {
 export interface IncidentFormValues {
   category: IncidentCategory
   municipality: string
+  community: string
   department: string
   lat: number
   lng: number
@@ -34,6 +35,7 @@ export interface IncidentFormValues {
 const EMPTY: IncidentFormValues = {
   category: 'inundacion',
   municipality: '',
+  community: '',
   department: '',
   lat: 12.1364,
   lng: -86.2514,
@@ -64,6 +66,7 @@ export default function IncidentForm({
       ? {
           category: initial.category,
           municipality: initial.municipality,
+          community: initial.community ?? '',
           department: initial.department,
           lat: initial.lat,
           lng: initial.lng,
@@ -86,6 +89,7 @@ export default function IncidentForm({
         ? {
             category: initial.category ?? EMPTY.category,
             municipality: initial.municipality ?? '',
+            community: initial.community ?? '',
             department: initial.department ?? '',
             lat: initial.lat ?? EMPTY.lat,
             lng: initial.lng ?? EMPTY.lng,
@@ -208,6 +212,12 @@ export default function IncidentForm({
               value={v.department}
               onChange={(e) => set('department', e.target.value)}
               placeholder="Departamento (opcional)"
+            />
+            <input
+              className="input mt-2"
+              value={v.community}
+              onChange={(e) => set('community', e.target.value)}
+              placeholder="Barrio o comunidad (opcional)"
             />
           </div>
           <div>

@@ -151,9 +151,10 @@ interface Props {
   height?: string
   compact?: boolean
   satellite?: boolean
+  focusPoint?: [number, number] | null
 }
 
-export default function TacticalMap({ incidents, allIncidents, resources, selectedId, onSelect, heatMode, height = '100%', compact, satellite = true }: Props) {
+export default function TacticalMap({ incidents, allIncidents, resources, selectedId, onSelect, heatMode, height = '100%', compact, satellite = true, focusPoint }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<maplibregl.Map | null>(null)
   const markersRef = useRef<maplibregl.Marker[]>([])
@@ -288,7 +289,7 @@ export default function TacticalMap({ incidents, allIncidents, resources, select
         </div>
         <div style="font-size:11.5px;color:#cfe2ef;line-height:1.55">
           <div><span style="color:#7d9bb0">Tipo:</span> ${CATEGORY_META[inc.category].label}</div>
-          <div><span style="color:#7d9bb0">Municipio / comunidad:</span> ${inc.municipality}${inc.department ? ', ' + inc.department : ''}</div>
+          <div><span style="color:#7d9bb0">Municipio / comunidad:</span> ${inc.municipality}${inc.community ? ' · ' + inc.community : ''}${inc.department ? ', ' + inc.department : ''}</div>
           <div><span style="color:#7d9bb0">Coordenadas:</span> ${inc.lat.toFixed(4)}, ${inc.lng.toFixed(4)}</div>
           <div><span style="color:#7d9bb0">Gravedad:</span> ${sevLabel[inc.severity]}</div>
           <div><span style="color:#7d9bb0">Criticidad simulada:</span> <span style="color:${critLevelColor[crit.level]};font-weight:700">${crit.score}/100</span> <span style="color:#7d9bb0;font-size:10px">(${crit.level})</span></div>
@@ -338,6 +339,12 @@ export default function TacticalMap({ incidents, allIncidents, resources, select
     if (!inc) return
     map.flyTo({ center: [inc.lng, inc.lat], zoom: 12.2, speed: 1.6, essential: true })
   }, [selectedId, ready]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map || !ready || selectedId) return
+    map.flyTo({ center: focusPoint ?? NIC_CENTER, zoom: focusPoint ? 11.4 : compact ? 6.2 : 6.6, speed: 1.3, essential: true })
+  }, [focusPoint, ready, selectedId, compact])
 
   if (failed) return <FallbackMap incidents={incidents} selectedId={selectedId} onSelect={onSelect} height={height} heatMode={heatMode} satellite={satellite} />
 

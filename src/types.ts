@@ -28,6 +28,7 @@ export interface Incident {
   id: string
   category: IncidentCategory
   municipality: string
+  community?: string
   department: string
   lat: number
   lng: number

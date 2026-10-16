@@ -79,7 +79,7 @@ function loadState(): AppState {
     const validAccess = new Set(Object.keys(ACCESS_META))
     const validCategory = new Set(Object.keys(CATEGORY_META))
     return {
-      incidents: parsed.incidents.map((i) => ({
+      incidents: [...parsed.incidents, ...DEMO_INCIDENTS.filter((demo) => !parsed.incidents?.some((i) => i.id === demo.id))].map((i) => ({
         ...i,
         category: validCategory.has(i.category) ? i.category : 'otro',
         severity: validSeverity.has(i.severity) ? i.severity : 'moderada',

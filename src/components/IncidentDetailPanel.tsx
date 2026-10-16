@@ -53,7 +53,7 @@ export default function IncidentDetailPanel({
           <p className="font-mono text-[11px] text-turq font-bold">{incident.id}</p>
           <h3 className="font-display font-bold text-white text-[15px] leading-tight truncate">{CATEGORY_META[incident.category].label}</h3>
           <p className="text-[11px] text-graytech truncate">
-            {incident.municipality}
+            {incident.municipality}{incident.community ? ` · ${incident.community}` : ''}
             {incident.department ? `, ${incident.department}` : ''}
           </p>
         </div>
@@ -71,6 +71,7 @@ export default function IncidentDetailPanel({
       </div>
 
       <div className="px-4 py-2 flex-1 overflow-y-auto">
+        {incident.community && <Row icon={<MapPin size={13} />} label="Barrio / comunidad" value={incident.community} />}
         <Row icon={<MapPin size={13} />} label="Coordenadas" value={<span className="font-mono text-[11px]">{incident.lat.toFixed(4)}, {incident.lng.toFixed(4)}</span>} />
         <Row icon={<Users size={13} />} label="Atrapados" value={incident.trapped > 0 ? <span className="text-red-crit font-bold">{incident.trapped} persona(s)</span> : 'Ninguno reportado'} />
         <Row icon={<HeartPulse size={13} />} label="Heridos" value={incident.injured > 0 ? <span className="text-orange-alert font-bold">{incident.injured} persona(s)</span> : 'Ninguno reportado'} />
