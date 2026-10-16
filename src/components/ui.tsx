@@ -6,19 +6,32 @@ import type { ToastMsg } from '../types'
 // Logo institucional (placeholder preparado para el archivo real)
 // ---------------------------------------------------------------------------
 export function Logo({ size = 36 }: { size?: number }) {
+  const [src, setSrc] = useState<'png' | 'jpeg' | 'none'>('png')
+
+  if (src === 'none') {
+    return (
+      <div
+        className="flex items-center justify-center rounded-xl border border-turq/40 bg-navy-deep shrink-0"
+        style={{ width: size, height: size }}
+        aria-label="GeoTriage-AI Nica"
+      >
+        <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 48 48" fill="none">
+          <path d="M24 4L40 12V28C40 36.5 33 42.5 24 45C15 42.5 8 36.5 8 28V12L24 4Z" stroke="#00C2C7" strokeWidth="2.5" fill="rgba(0,194,199,0.08)" />
+          <circle cx="24" cy="21" r="6" stroke="#00C2C7" strokeWidth="2.5" />
+          <path d="M24 15V27M18 21H30" stroke="#FF7A00" strokeWidth="2" strokeLinecap="round" />
+          <path d="M16 34C18.5 30.5 21 29 24 29C27 29 29.5 30.5 32 34" stroke="#4FC3F7" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </div>
+    )
+  }
+
   return (
-    <div
-      className="flex items-center justify-center rounded-xl border border-turq/40 bg-navy-deep shrink-0"
-      style={{ width: size, height: size }}
-      aria-label="GeoTriage-AI Nica"
-    >
-      <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 48 48" fill="none">
-        <path d="M24 4L40 12V28C40 36.5 33 42.5 24 45C15 42.5 8 36.5 8 28V12L24 4Z" stroke="#00C2C7" strokeWidth="2.5" fill="rgba(0,194,199,0.08)" />
-        <circle cx="24" cy="21" r="6" stroke="#00C2C7" strokeWidth="2.5" />
-        <path d="M24 15V27M18 21H30" stroke="#FF7A00" strokeWidth="2" strokeLinecap="round" />
-        <path d="M16 34C18.5 30.5 21 29 24 29C27 29 29.5 30.5 32 34" stroke="#4FC3F7" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    </div>
+    <img
+      src={src === 'png' ? '/logo.png' : '/logo.jpeg'}
+      alt="GeoTriage-AI Nica"
+      onError={() => setSrc((prev) => (prev === 'png' ? 'jpeg' : 'none'))}
+      style={{ width: size, height: size, objectFit: 'contain', borderRadius: 10, border: '1px solid rgba(0,194,199,0.4)', background: '#071E33' }}
+    />
   )
 }
 

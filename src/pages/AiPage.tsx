@@ -23,13 +23,13 @@ import type { Recommendation } from '../types'
 import { criticidadLevelOf, priorityColor, priorityLabel } from '../lib/ai'
 
 const STEPS = [
-  { key: 'reporte', label: 'Reporte recibido', icon: Database },
-  { key: 'gravedad', label: 'Evaluación de gravedad', icon: Activity },
-  { key: 'afectadas', label: 'Análisis de personas afectadas', icon: Users },
-  { key: 'acceso', label: 'Evaluación de acceso', icon: MapPin },
-  { key: 'necesidades', label: 'Identificación de necesidades', icon: ListChecks },
-  { key: 'recursos', label: 'Consulta de recursos simulados', icon: Radio },
-  { key: 'recomendacion', label: 'Recomendación táctica generada', icon: Target },
+  { key: 'reporte', label: 'Reporte recibido', shortLabel: 'Reporte', icon: Database },
+  { key: 'gravedad', label: 'Evaluación de gravedad', shortLabel: 'Gravedad', icon: Activity },
+  { key: 'afectadas', label: 'Análisis de personas afectadas', shortLabel: 'Afectados', icon: Users },
+  { key: 'acceso', label: 'Evaluación de acceso', shortLabel: 'Acceso', icon: MapPin },
+  { key: 'necesidades', label: 'Identificación de necesidades', shortLabel: 'Necesidades', icon: ListChecks },
+  { key: 'recursos', label: 'Consulta de recursos simulados', shortLabel: 'Recursos', icon: Radio },
+  { key: 'recomendacion', label: 'Recomendación táctica generada', shortLabel: 'Respuesta', icon: Target },
 ]
 
 function criticColor(score: number) {
@@ -119,7 +119,7 @@ export default function AiPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-purple-ai/20 bg-gradient-to-r from-purple-ai/10 via-navy/70 to-transparent px-4 py-3">
         <div>
           <h1 className="font-display font-extrabold text-xl text-white flex items-center gap-2">
             <BrainCircuit size={20} className="text-purple-ai" /> Centro de Análisis IA
@@ -134,14 +134,14 @@ export default function AiPage() {
       </div>
 
       {/* Estadísticas de decisiones */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
         {[
           { label: 'Recomendaciones aceptadas', value: stats.aceptadas, color: '#43A047' },
           { label: 'Recomendaciones rechazadas', value: stats.rechazadas, color: '#E53935' },
           { label: 'Pendientes de revisión', value: stats.pendientes, color: '#FBC02D' },
         ].map((s) => (
-          <div key={s.label} className="card p-3.5 flex items-center gap-3">
-            <span className="w-10 h-10 rounded-xl flex items-center justify-center font-display font-extrabold text-lg" style={{ background: `${s.color}1f`, color: s.color }}>
+          <div key={s.label} className="card p-2.5 flex items-center gap-2.5">
+            <span className="w-9 h-9 rounded-xl flex items-center justify-center font-display font-extrabold text-lg shrink-0" style={{ background: `${s.color}1f`, color: s.color }}>
               {s.value}
             </span>
             <p className="text-[11.5px] text-sky-100/70 leading-snug">{s.label}</p>
@@ -152,9 +152,12 @@ export default function AiPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Lista de incidentes a analizar */}
         <div className="lg:col-span-4 card overflow-hidden flex flex-col">
-          <div className="px-4 py-3 border-b border-white/8">
-            <p className="font-display font-bold text-[13px] text-white">Incidentes para análisis</p>
-            <p className="text-[10.5px] text-graytech">Ordenados por criticidad calculada</p>
+          <div className="px-4 py-3 border-b border-white/8 bg-white/[0.02]">
+            <div className="flex items-center justify-between gap-2">
+              <p className="font-display font-bold text-[13px] text-white">Incidentes para análisis</p>
+              <span className="rounded-full bg-white/5 px-2 py-0.5 text-[9px] font-bold text-graytech">{ranked.length} registros</span>
+            </div>
+            <p className="text-[10.5px] text-graytech mt-0.5">Ordenados por criticidad · seleccione uno para ver acciones</p>
           </div>
           <div className="overflow-y-auto max-h-[560px]">
             {ranked.length === 0 ? (
@@ -170,12 +173,13 @@ export default function AiPage() {
                       setActiveId(s.incident.id)
                       setParams({ foco: s.incident.id }, { replace: true })
                     }}
-                    className={`w-full text-left px-4 py-3 border-b border-white/5 transition ${
+                    className={`w-full text-left px-3.5 py-3 border-b border-white/5 transition ${
                       activeId === s.incident.id ? 'bg-purple-ai/12 border-l-2 border-l-purple-ai' : 'hover:bg-white/3 border-l-2 border-l-transparent'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <span className="font-mono text-[10.5px] text-turq font-bold">{s.incident.id}</span>
+                      <span className="font-mono text-[10px] text-turq font-bold">{s.incident.id}</span>
+                      <span className="rounded-full px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase" style={{ background: `${SEVERITY_META[s.incident.severity].hex}18`, color: SEVERITY_META[s.incident.severity].hex }}>{SEVERITY_META[s.incident.severity].label}</span>
                       {dec && (
                         <span
                           className="rounded-full px-1.5 py-0.5 text-[9px] font-bold"
@@ -187,13 +191,13 @@ export default function AiPage() {
                           {dec === 'aceptada' ? 'ACEPTADA' : 'RECHAZADA'}
                         </span>
                       )}
-                      <span className="ml-auto font-display font-extrabold text-[15px]" style={{ color: c }}>
-                        {s.criticidad.score}
+                      <span className="ml-auto flex items-baseline gap-0.5 font-display font-extrabold text-[15px]" style={{ color: c }}>
+                        {s.criticidad.score}<span className="text-[8px] text-graytech">/100</span>
                       </span>
                     </div>
                     <p className="text-[12px] font-semibold text-white mt-1 leading-snug truncate">{s.recommendation.title}</p>
                     <p className="text-[10.5px] text-graytech mt-0.5">
-                      {s.incident.municipality} · gravedad {SEVERITY_META[s.incident.severity].label.toLowerCase()}
+                      {s.incident.community ? `${s.incident.community} · ` : ''}{s.incident.municipality}
                     </p>
                   </button>
                 )
@@ -211,14 +215,14 @@ export default function AiPage() {
           ) : (
             <>
               {/* Secuencia visual */}
-              <div className="card p-4">
-                <div className="flex items-center justify-between mb-3">
+              <div className="card p-3.5 border border-purple-ai/20">
+                <div className="flex items-center justify-between gap-3 mb-2.5">
                   <div>
-                    <p className="font-display font-bold text-[13.5px] text-white">
-                      Análisis de {active.incident.id}
+                    <p className="font-display font-bold text-[13px] text-white">
+                      {active.incident.id} <span className="text-graytech font-normal">· {active.incident.community ? `${active.incident.community}, ` : ''}{active.incident.municipality}</span>
                     </p>
-                    <p className="text-[11px] text-graytech">
-                      {active.incident.category} · {active.incident.municipality}, {active.incident.department}
+                    <p className="text-[10px] text-graytech mt-0.5">
+                      {active.incident.category} · {active.incident.department} · {step}/{STEPS.length} fases
                     </p>
                     <a href={incidentMapsUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 mt-1 text-[10.5px] text-turq hover:underline">
                       <MapPin size={11} /> {active.incident.lat.toFixed(6)}, {active.incident.lng.toFixed(6)} · Abrir ubicación exacta
@@ -229,9 +233,9 @@ export default function AiPage() {
                   </button>
                 </div>
 
-                <ProgressBar value={(step / STEPS.length) * 100} color="#885CF6" height={6} />
+                <ProgressBar value={(step / STEPS.length) * 100} color="#885CF6" height={4} />
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3.5">
+                <div className="flex gap-2 mt-2.5 overflow-x-auto pb-1">
                   {STEPS.map((s, idx) => {
                     const Icon = s.icon
                     const done = idx < step
@@ -239,7 +243,8 @@ export default function AiPage() {
                     return (
                       <div
                         key={s.key}
-                        className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 transition-all duration-300 ${
+                        title={s.label}
+                        className={`flex min-w-[72px] flex-1 items-center justify-center gap-1.5 rounded-lg border px-1.5 py-2 transition-all duration-300 ${
                           done
                             ? 'border-purple-ai/35 bg-purple-ai/8'
                             : current
@@ -248,13 +253,13 @@ export default function AiPage() {
                         }`}
                       >
                         <div
-                          className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                          className={`w-6 h-6 rounded-lg flex items-center justify-center shrink-0 ${
                             done ? 'bg-purple-ai/20 text-purple-ai' : current ? 'bg-turq/25 text-turq' : 'bg-white/5 text-graytech'
                           }`}
                         >
-                          {done ? <CheckCircle2 size={14} /> : <Icon size={14} />}
+                          {done ? <CheckCircle2 size={12} /> : <Icon size={12} />}
                         </div>
-                        <span className={`text-[11.5px] font-semibold ${done || current ? 'text-white' : 'text-graytech'}`}>{s.label}</span>
+                        <span className={`text-[9px] font-semibold leading-tight ${done || current ? 'text-white' : 'text-graytech'}`}>{s.shortLabel}</span>
                         {current && <span className="ml-auto w-2 h-2 rounded-full bg-turq animate-pulse" />}
                       </div>
                     )
@@ -266,7 +271,7 @@ export default function AiPage() {
               {step >= STEPS.length && (
                 <div className="fade-up grid grid-cols-1 md:grid-cols-5 gap-4">
                   {/* Score */}
-                  <div className="md:col-span-2 card p-4 flex flex-col items-center justify-center text-center">
+                  <div className="md:col-span-2 order-2 md:order-1 card p-3.5 flex flex-col items-center justify-start text-center border border-white/8">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-graytech mb-2">Criticidad simulada</p>
                     <div
                       className="w-28 h-28 rounded-full flex items-center justify-center relative"
@@ -300,7 +305,7 @@ export default function AiPage() {
                   </div>
 
                   {/* Recomendación */}
-                  <div className="md:col-span-3 card p-4 flex flex-col">
+                  <div className="md:col-span-3 order-1 md:order-2 card p-4 flex flex-col border border-purple-ai/25 bg-gradient-to-br from-purple-ai/[0.07] via-navy to-navy">
                     <div className="flex items-center gap-2 mb-1">
                       <Target size={15} className="text-purple-ai" />
                       <span
@@ -325,9 +330,15 @@ export default function AiPage() {
                         </span>
                       )}
                     </div>
-                    <h3 className="font-display font-bold text-[15px] text-white leading-snug mt-1">{active.recommendation.title}</h3>
+                    <h3 className="font-display font-bold text-[16px] text-white leading-snug mt-2">{active.recommendation.title}</h3>
 
                     <div className="mt-3 space-y-2.5 flex-1">
+                      <div>
+                        <p className="label !mb-1">Acción propuesta</p>
+                        <p className="text-[12px] text-white leading-relaxed bg-turq/8 border border-turq/25 rounded-lg px-3 py-2.5">
+                          {active.recommendation.action}
+                        </p>
+                      </div>
                       <div className="rounded-lg border border-turq/25 bg-turq/5 px-3 py-2.5">
                         <p className="label !mb-1">Ubicación y ruta vial</p>
                         <p className="text-[11px] text-sky-100/75">Destino: {active.incident.municipality}, {active.incident.department} · {active.incident.lat.toFixed(6)}, {active.incident.lng.toFixed(6)}</p>
@@ -344,12 +355,6 @@ export default function AiPage() {
                       <div>
                         <p className="label !mb-1">Justificación</p>
                         <p className="text-[12px] text-sky-100/80 leading-relaxed">{active.recommendation.justification}</p>
-                      </div>
-                      <div>
-                        <p className="label !mb-1">Acción propuesta</p>
-                        <p className="text-[12px] text-turq leading-relaxed bg-turq/6 border border-turq/20 rounded-lg px-3 py-2">
-                          {active.recommendation.action}
-                        </p>
                       </div>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
