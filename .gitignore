@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-ssr/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Vite cache
+node_modules/.vite/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Local data / cache
+.cache/
+# Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
