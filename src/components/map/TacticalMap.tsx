@@ -280,30 +280,31 @@ export default function TacticalMap({ incidents, allIncidents, resources, select
       const dt = new Date(inc.datetime).toLocaleString('es-NI', { dateStyle: 'medium', timeStyle: 'short' })
 
       const popupEl = document.createElement('div')
+      popupEl.className = 'gt-incident-popup'
       popupEl.style.cssText = 'font-family:Inter,sans-serif;min-width:250px;max-width:280px;'
       popupEl.innerHTML = `
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
           <span style="width:10px;height:10px;border-radius:99px;background:${sevHex};display:inline-block;box-shadow:0 0 6px ${sevHex}66"></span>
-          <strong style="font-size:12.5px;color:#fff">${inc.id}</strong>
-          <span style="margin-left:auto;font-size:9.5px;padding:2px 7px;border-radius:99px;background:${sevHex}22;color:${sevHex};font-weight:700;letter-spacing:.04em">${sevLabel[inc.severity].toUpperCase()}</span>
+          <strong class="gt-popup-id" style="font-size:12.5px;color:#fff">${inc.id}</strong>
+          <span class="gt-popup-severity gt-severity-${inc.severity}" style="margin-left:auto;font-size:9.5px;padding:2px 7px;border-radius:99px;background:${sevHex}22;color:${sevHex};font-weight:700;letter-spacing:.04em">${sevLabel[inc.severity].toUpperCase()}</span>
         </div>
         <div style="font-size:11.5px;color:#cfe2ef;line-height:1.55">
-          <div><span style="color:#7d9bb0">Tipo:</span> ${CATEGORY_META[inc.category].label}</div>
-          <div><span style="color:#7d9bb0">Municipio / comunidad:</span> ${inc.municipality}${inc.community ? ' · ' + inc.community : ''}${inc.department ? ', ' + inc.department : ''}</div>
-          <div><span style="color:#7d9bb0">Coordenadas:</span> ${inc.lat.toFixed(4)}, ${inc.lng.toFixed(4)}</div>
-          <div><span style="color:#7d9bb0">Gravedad:</span> ${sevLabel[inc.severity]}</div>
-          <div><span style="color:#7d9bb0">Criticidad simulada:</span> <span style="color:${critLevelColor[crit.level]};font-weight:700">${crit.score}/100</span> <span style="color:#7d9bb0;font-size:10px">(${crit.level})</span></div>
-          <div><span style="color:#7d9bb0">Personas atrapadas:</span> ${inc.trapped}</div>
-          <div><span style="color:#7d9bb0">Personas heridas:</span> ${inc.injured}</div>
-          <div><span style="color:#7d9bb0">Necesidades:</span> ${needs}</div>
-          <div><span style="color:#7d9bb0">Estado de acceso:</span> ${inc.access}</div>
-          <div><span style="color:#7d9bb0">Fecha / hora:</span> ${dt}</div>
-          <div><span style="color:#7d9bb0">Estado de atención:</span> ${inc.status.replace('_', ' ')}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Tipo:</span> ${CATEGORY_META[inc.category].label}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Municipio / comunidad:</span> ${inc.municipality}${inc.community ? ' · ' + inc.community : ''}${inc.department ? ', ' + inc.department : ''}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Coordenadas:</span> ${inc.lat.toFixed(4)}, ${inc.lng.toFixed(4)}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Gravedad:</span> ${sevLabel[inc.severity]}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Criticidad simulada:</span> <span class="gt-popup-score gt-severity-${crit.level}" style="color:${critLevelColor[crit.level]};font-weight:700">${crit.score}/100</span> <span class="gt-popup-label" style="color:#7d9bb0;font-size:10px">(${crit.level})</span></div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Personas atrapadas:</span> ${inc.trapped}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Personas heridas:</span> ${inc.injured}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Necesidades:</span> ${needs}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Estado de acceso:</span> ${inc.access}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Fecha / hora:</span> ${dt}</div>
+          <div><span class="gt-popup-label" style="color:#7d9bb0">Estado de atención:</span> ${inc.status.replace('_', ' ')}</div>
         </div>
         <div style="margin-top:9px;padding:8px 9px;border-radius:9px;background:rgba(136,92,246,0.10);border:1px solid rgba(136,92,246,0.30)">
-          <div style="font-size:9px;font-weight:800;letter-spacing:.08em;color:#b79cff;margin-bottom:3px">IA SIMULADA — RECOMENDACIÓN</div>
-          <div style="font-size:11px;font-weight:600;color:#f1eaff;line-height:1.4">${rec.title}</div>
-          <div style="font-size:10px;color:#c6b4f5;margin-top:3px;line-height:1.4">${rec.action}</div>
+          <div class="gt-popup-ai-label" style="font-size:9px;font-weight:800;letter-spacing:.08em;color:#b79cff;margin-bottom:3px">IA SIMULADA — RECOMENDACIÓN</div>
+          <div class="gt-popup-rec-title" style="font-size:11px;font-weight:600;color:#f1eaff;line-height:1.4">${rec.title}</div>
+          <div class="gt-popup-rec-action" style="font-size:10px;color:#c6b4f5;margin-top:3px;line-height:1.4">${rec.action}</div>
         </div>
         <button class="gt-view-btn" style="margin-top:9px;width:100%;padding:6px 8px;border-radius:8px;border:1px solid rgba(0,194,199,0.45);background:rgba(0,194,199,0.12);color:#00C2C7;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">
           Ver detalles completos

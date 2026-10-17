@@ -23,6 +23,21 @@
   color-scheme: dark;
 }
 
+html[data-theme="light"] {
+  color-scheme: light;
+  --color-navy: #e8f0f5;
+  --color-navy-deep: #f4f7fa;
+  --color-navy-soft: #d8e5ee;
+  --color-navy-card: #ffffff;
+  --color-white: #172d3d;
+  --color-sky-50: #294355;
+  --color-sky-100: #294355;
+  --color-turq: #007f84;
+  --color-turq-dark: #005f63;
+  --color-purple-ai: #6843c5;
+  --color-graytech: #5d6e7b;
+}
+
 html,
 body,
 #root {
@@ -35,6 +50,139 @@ body {
   background: #071e33;
   color: #e8f1f8;
   -webkit-font-smoothing: antialiased;
+}
+
+html[data-theme="light"] body {
+  background: #f4f7fa;
+  color: #1c3446;
+}
+
+html[data-theme="light"] main {
+  background-image: radial-gradient(ellipse at top, rgba(0, 127, 132, 0.055), transparent 58%);
+}
+
+html[data-theme="light"] .card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 250, 252, 0.98));
+  border-color: rgba(24, 83, 104, 0.15);
+  box-shadow: 0 5px 18px rgba(27, 55, 74, 0.08);
+}
+
+html[data-theme="light"] .card-hover:hover {
+  border-color: rgba(0, 127, 132, 0.42);
+  box-shadow: 0 8px 22px rgba(27, 55, 74, 0.12);
+}
+
+html[data-theme="light"] .btn-ghost {
+  background: rgba(30, 67, 88, 0.035);
+  border-color: rgba(30, 67, 88, 0.16);
+  color: #294355;
+}
+
+html[data-theme="light"] .btn-ghost:hover:not(:disabled) {
+  background: rgba(0, 127, 132, 0.09);
+  border-color: rgba(0, 127, 132, 0.32);
+  color: #173d48;
+}
+
+html[data-theme="light"] .input {
+  background: #fff;
+  border-color: rgba(30, 67, 88, 0.2);
+  color: #20384a;
+}
+
+html[data-theme="light"] .input::placeholder {
+  color: rgba(55, 78, 94, 0.55);
+}
+
+html[data-theme="light"] .label {
+  color: #526c7e;
+}
+
+html[data-theme="light"] select.input option {
+  background: #fff;
+  color: #20384a;
+}
+
+html[data-theme="light"] .topbar-demo-badge,
+html[data-theme="light"] [class*="text-yellow-warn"] {
+  color: #795900 !important;
+}
+
+html[data-theme="light"] [class*="text-orange-alert"] {
+  color: #984300 !important;
+}
+
+html[data-theme="light"] [class*="text-green-status"] {
+  color: #28632c !important;
+}
+
+html[data-theme="light"] [class*="text-red-crit"] {
+  color: #b3261e !important;
+}
+
+html[data-theme="light"] [class*="text-info-sky"] {
+  color: #087195 !important;
+}
+
+html[data-theme="light"] [class*="text-purple-ai"] {
+  color: #5836b0 !important;
+}
+
+html[data-theme="light"] .ai-page [class*="text-sky-100/"],
+html[data-theme="light"] .ai-page [class*="text-white/"],
+html[data-theme="light"] .ai-page [class*="text-graytech/"] {
+  color: #526777 !important;
+}
+
+html[data-theme="light"] .ai-page [style*="#FBC02D"] { color: #795900 !important; }
+html[data-theme="light"] .ai-page [style*="#FF7A00"] { color: #984300 !important; }
+html[data-theme="light"] .ai-page [style*="#43A047"] { color: #28632c !important; }
+html[data-theme="light"] .ai-page [style*="#E53935"] { color: #b3261e !important; }
+html[data-theme="light"] .ai-page [style*="#4FC3F7"] { color: #087195 !important; }
+html[data-theme="light"] .ai-page [style*="#885CF6"] { color: #5836b0 !important; }
+
+html[data-theme="light"] .maplibregl-popup-content {
+  background: rgba(255, 255, 255, 0.97) !important;
+  color: #1c3446 !important;
+  border-color: rgba(0, 127, 132, 0.32);
+  box-shadow: 0 10px 30px rgba(24, 48, 64, 0.2) !important;
+}
+
+html[data-theme="light"] .gt-incident-popup [style*="color:#cfe2ef"],
+html[data-theme="light"] .gt-incident-popup .gt-popup-rec-title {
+  color: #20384a !important;
+}
+
+html[data-theme="light"] .gt-incident-popup .gt-popup-label,
+html[data-theme="light"] .gt-incident-popup [style*="color:#7d9bb0"] {
+  color: #526777 !important;
+}
+
+html[data-theme="light"] .gt-incident-popup .gt-popup-id,
+html[data-theme="light"] .gt-incident-popup [style*="color:#fff"] {
+  color: #20384a !important;
+}
+
+html[data-theme="light"] .gt-incident-popup .gt-popup-ai-label { color: #5836b0 !important; }
+html[data-theme="light"] .gt-incident-popup .gt-popup-rec-action { color: #55427d !important; }
+html[data-theme="light"] .gt-incident-popup .gt-severity-baja { color: #28632c !important; }
+html[data-theme="light"] .gt-incident-popup .gt-severity-moderada { color: #795900 !important; }
+html[data-theme="light"] .gt-incident-popup .gt-severity-alta { color: #984300 !important; }
+html[data-theme="light"] .gt-incident-popup .gt-severity-critica { color: #b3261e !important; }
+html[data-theme="light"] .gt-incident-popup .gt-view-btn { color: #006c70 !important; }
+
+html[data-theme="light"] .maplibregl-ctrl-group {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border-color: rgba(0, 127, 132, 0.25) !important;
+}
+
+html[data-theme="light"] .maplibregl-ctrl-attrib {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #526c7e !important;
+}
+
+html[data-theme="light"] .maplibregl-ctrl-attrib a {
+  color: #315a70 !important;
 }
 
 h1, h2, h3, h4, h5 {

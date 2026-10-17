@@ -5,6 +5,7 @@ import Topbar from './components/layout/Topbar'
 import { ToastProvider } from './components/ui'
 import { IncidentFormProvider } from './components/IncidentFormProvider'
 import { AppProvider } from './context/AppContext'
+import { ThemeProvider } from './context/ThemeContext'
 import DashboardPage from './pages/DashboardPage'
 import MapPage from './pages/MapPage'
 import IncidentsPage from './pages/IncidentsPage'
@@ -65,16 +66,18 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
 
 export default function App() {
   return (
-    <HashRouter>
-      <ErrorBoundary>
-        <AppProvider>
-          <ToastProvider>
-            <IncidentFormProvider>
-              <Shell />
-            </IncidentFormProvider>
-          </ToastProvider>
-        </AppProvider>
-      </ErrorBoundary>
-    </HashRouter>
+    <ThemeProvider>
+      <HashRouter>
+        <ErrorBoundary>
+          <AppProvider>
+            <ToastProvider>
+              <IncidentFormProvider>
+                <Shell />
+              </IncidentFormProvider>
+            </ToastProvider>
+          </AppProvider>
+        </ErrorBoundary>
+      </HashRouter>
+    </ThemeProvider>
   )
 }

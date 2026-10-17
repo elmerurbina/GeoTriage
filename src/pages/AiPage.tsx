@@ -45,6 +45,7 @@ export default function AiPage() {
 
   const foco = params.get('foco')
   const [activeId, setActiveId] = useState<string | null>(foco ?? scored[0]?.incident.id ?? null)
+  const [zone, setZone] = useState('')
   const [step, setStep] = useState(STEPS.length)
   const [running, setRunning] = useState(false)
   const [decided, setDecided] = useState<Record<string, 'aceptada' | 'rechazada'>>(() => {
@@ -57,6 +58,7 @@ export default function AiPage() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const active = scored.find((s) => s.incident.id === activeId) ?? null
+  const zones = useMemo(() => [...new Set(state.incidents.map((i) => i.municipality).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es')), [state.incidents])
   const nearestResource = active
     ? state.resources.filter((r) => r.available > 0).map((r) => {
         const dLat = (r.baseLat - active.incident.lat) * Math.PI / 180
@@ -90,8 +92,10 @@ export default function AiPage() {
     if (foco) {
       setActiveId(foco)
       setSelectedIncidentId(foco)
+      const incident = state.incidents.find((i) => i.id === foco)
+      if (incident) setZone(incident.municipality)
     }
-  }, [foco]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [foco, state.incidents]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (activeId) runAnalysis(activeId)
@@ -100,10 +104,22 @@ export default function AiPage() {
     }
   }, [activeId])
 
-  const ranked = useMemo(() => [...scored].sort((a, b) => b.criticidad.score - a.criticidad.score), [scored])
+  const ranked = useMemo(
+    () => scored.filter((s) => !zone || s.incident.municipality.toLocaleLowerCase() === zone.toLocaleLowerCase()).sort((a, b) => b.criticidad.score - a.criticidad.score),
+    [scored, zone],
+  )
+
+  useEffect(() => {
+    if (!ranked.length) {
+      setActiveId(null)
+      return
+    }
+    if (!ranked.some((s) => s.incident.id === activeId)) setActiveId(ranked[0].incident.id)
+  }, [ranked, activeId])
 
   const stats = useMemo(() => {
-    const decs = state.decisions.filter((d) => !d.recommendationId.startsWith('manual'))
+    const scopedIds = new Set(ranked.map((s) => s.incident.id))
+    const decs = state.decisions.filter((d) => !d.recommendationId.startsWith('manual') && scopedIds.has(d.incidentId))
     return {
       aceptadas: decs.filter((d) => d.decision === 'aceptada').length,
       rechazadas: decs.filter((d) => d.decision === 'rechazada').length,
@@ -118,7 +134,7 @@ export default function AiPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="ai-page space-y-4">
       <div className="flex flex-wrap items-center gap-3 rounded-2xl border border-purple-ai/20 bg-gradient-to-r from-purple-ai/10 via-navy/70 to-transparent px-4 py-3">
         <div>
           <h1 className="font-display font-extrabold text-xl text-white flex items-center gap-2">
@@ -130,6 +146,21 @@ export default function AiPage() {
         </div>
         <span className="ml-auto rounded-lg border border-purple-ai/45 bg-purple-ai/12 px-3 py-1.5 text-[10px] font-extrabold tracking-widest text-purple-ai">
           IA SIMULADA — RESULTADOS DE DEMOSTRACIÓN
+        </span>
+      </div>
+
+      <div className="card flex flex-wrap items-center gap-3 px-4 py-3 border border-turq/20">
+        <div className="w-9 h-9 rounded-xl bg-turq/10 text-turq flex items-center justify-center shrink-0"><MapPin size={17} /></div>
+        <div className="min-w-[150px]">
+          <p className="text-[11px] font-bold text-white">Zona de priorización</p>
+          <p className="text-[9.5px] text-graytech">Filtre el análisis por municipio</p>
+        </div>
+        <select className="input w-full sm:w-56" value={zone} onChange={(e) => setZone(e.target.value)} aria-label="Seleccionar zona de priorización">
+          <option value="">Todo el país</option>
+          {zones.map((name) => <option key={name} value={name}>{name}</option>)}
+        </select>
+        <span className="rounded-full border border-purple-ai/25 bg-purple-ai/10 px-2.5 py-1 text-[10px] font-bold text-purple-ai ml-auto">
+          {ranked.length} alertas {zone ? `en ${zone}` : 'en Nicaragua'}
         </span>
       </div>
 
@@ -157,7 +188,7 @@ export default function AiPage() {
               <p className="font-display font-bold text-[13px] text-white">Incidentes para análisis</p>
               <span className="rounded-full bg-white/5 px-2 py-0.5 text-[9px] font-bold text-graytech">{ranked.length} registros</span>
             </div>
-            <p className="text-[10.5px] text-graytech mt-0.5">Ordenados por criticidad · seleccione uno para ver acciones</p>
+              <p className="text-[10.5px] text-graytech mt-0.5">{zone ? `Zona: ${zone}` : 'Todo el país'} · ordenados por criticidad</p>
           </div>
           <div className="overflow-y-auto max-h-[560px]">
             {ranked.length === 0 ? (

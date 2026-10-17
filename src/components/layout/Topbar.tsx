@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { Bell, Menu, User } from 'lucide-react'
+import { Bell, Menu, Moon, Sun, User } from 'lucide-react'
 import { useApp } from '../../context/AppContext'
+import { useTheme } from '../../context/ThemeContext'
 import { useClock } from '../ui'
 
 const DATE_FMT = new Intl.DateTimeFormat('es-NI', {
@@ -14,6 +15,7 @@ const TIME_FMT = new Intl.DateTimeFormat('es-NI', { hour: '2-digit', minute: '2-
 export default function Topbar({ onMenu }: { onMenu: () => void }) {
   const now = useClock()
   const { state, clearNotifications } = useApp()
+  const { theme, toggleTheme } = useTheme()
   const [openNotif, setOpenNotif] = useState(false)
   const unread = state.notifications.filter((n) => !n.read).length
 
@@ -33,7 +35,16 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
       </div>
 
       <div className="ml-auto flex items-center gap-2.5">
-        <span className="hidden md:inline-flex items-center gap-1.5 rounded-full border border-yellow-warn/40 bg-yellow-warn/10 px-2.5 py-1 text-[10px] font-bold tracking-wider text-yellow-warn">
+        <button
+          onClick={toggleTheme}
+          className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-sky-100/75 hover:text-turq hover:border-turq/40 transition"
+          aria-label={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+          title={theme === 'dark' ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
+        >
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+        </button>
+
+        <span className="topbar-demo-badge hidden md:inline-flex items-center gap-1.5 rounded-full border border-yellow-warn/40 bg-yellow-warn/10 px-2.5 py-1 text-[10px] font-bold tracking-wider text-yellow-warn">
           <span className="w-1.5 h-1.5 rounded-full bg-yellow-warn animate-pulse" />
           MODO DEMOSTRACIÓN
         </span>
