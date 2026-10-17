@@ -1,4 +1,4 @@
-# GeoTriage-AI Nica — Prototipo visual interactivo
+# Centinela — Prototipo visual interactivo
 
 Prototipo de plataforma de gestión de emergencias para Nicaragua. Prioriza la
 experiencia visual, la navegación y la simulación de funcionalidades mediante

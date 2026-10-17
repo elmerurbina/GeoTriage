@@ -191,7 +191,7 @@ function FieldScreen({ full }: { full?: boolean }) {
       <div className="h-12 shrink-0 bg-navy border-b border-turq/15 flex items-center px-3 gap-2">
         <Radio size={16} className="text-turq" />
         <div className="min-w-0">
-          <p className="text-[11.5px] font-bold text-white leading-none">GeoTriage Brigada</p>
+          <p className="text-[11.5px] font-bold text-white leading-none">Centinela Brigada</p>
           <p className="text-[9px] text-turq font-semibold leading-none mt-0.5">MODO CAMPO — DEMOSTRACIÓN</p>
         </div>
         <span className="ml-auto rounded-full bg-yellow-warn/15 border border-yellow-warn/35 px-2 py-0.5 text-[8.5px] font-bold text-yellow-warn">

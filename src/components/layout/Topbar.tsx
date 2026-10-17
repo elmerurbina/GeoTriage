@@ -27,7 +27,7 @@ export default function Topbar({ onMenu }: { onMenu: () => void }) {
 
       <div className="min-w-0 hidden sm:block">
         <p className="font-display font-bold text-[13.5px] text-white leading-tight truncate">
-          COE Nacional — Estación Central de Mando
+          Centinela — Estación Central de Mando
         </p>
         <p className="text-[11px] text-sky-100/50 leading-tight">
           {DATE_FMT.format(now)} · <span className="tabular-nums text-turq font-semibold">{TIME_FMT.format(now)}</span> (hora local)

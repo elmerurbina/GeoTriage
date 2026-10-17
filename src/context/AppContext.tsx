@@ -55,7 +55,7 @@ function freshState(): AppState {
         id: 'ntf-welcome',
         kind: 'ia',
         title: 'Sistema de demostración activo',
-        detail: 'GeoTriage-AI Nica opera en MODO DEMOSTRACIÓN con datos sintéticos.',
+        detail: 'Centinela opera en MODO DEMOSTRACIÓN con datos sintéticos.',
         at: new Date().toISOString(),
         read: false,
       },

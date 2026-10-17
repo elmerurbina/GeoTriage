@@ -38,9 +38,9 @@ export default function Sidebar({ open, onClose }: { open: boolean; onClose: () 
           <Logo size={38} />
           <div className="min-w-0">
             <p className="font-display font-extrabold text-[13.5px] leading-tight text-white truncate">
-              GeoTriage-AI Nica
+              Centinela
             </p>
-            <p className="text-[10px] text-turq font-semibold tracking-wide">CENTRO DE MANDO</p>
+            <p className="text-[9px] text-sky-100/55 leading-tight mt-0.5">Conectando comunidades, priorizando vidas.</p>
           </div>
           <button onClick={onClose} className="ml-auto lg:hidden text-graytech hover:text-white p-1">
             <X size={18} />

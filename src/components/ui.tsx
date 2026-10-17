@@ -13,7 +13,7 @@ export function Logo({ size = 36 }: { size?: number }) {
       <div
         className="flex items-center justify-center rounded-xl border border-turq/40 bg-navy-deep shrink-0"
         style={{ width: size, height: size }}
-        aria-label="GeoTriage-AI Nica"
+        aria-label="Centinela"
       >
         <svg width={size * 0.62} height={size * 0.62} viewBox="0 0 48 48" fill="none">
           <path d="M24 4L40 12V28C40 36.5 33 42.5 24 45C15 42.5 8 36.5 8 28V12L24 4Z" stroke="#00C2C7" strokeWidth="2.5" fill="rgba(0,194,199,0.08)" />
@@ -28,7 +28,7 @@ export function Logo({ size = 36 }: { size?: number }) {
   return (
     <img
       src={src === 'png' ? '/logo.png' : '/logo.jpeg'}
-      alt="GeoTriage-AI Nica"
+      alt="Centinela"
       onError={() => setSrc((prev) => (prev === 'png' ? 'jpeg' : 'none'))}
       style={{ width: size, height: size, objectFit: 'contain', borderRadius: 10, border: '1px solid rgba(0,194,199,0.4)', background: '#071E33' }}
     />

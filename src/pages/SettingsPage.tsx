@@ -79,7 +79,7 @@ export default function SettingsPage() {
           <Logo size={56} />
           <div className="text-[12px] text-sky-100/70 leading-relaxed space-y-1.5">
             <p>
-              <strong className="text-white">GeoTriage-AI Nica</strong> es un prototipo visual interactivo de plataforma
+              <strong className="text-white">Centinela</strong> es un prototipo visual interactivo de plataforma
               de gestión de emergencias para Nicaragua. Incluye estación central de mando, mapa táctico, bandeja de
               incidentes, análisis IA simulado, gestión de recursos, red de nodos y micro-app de campo.
             </p>

@@ -49,12 +49,12 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
     this.state = { error: null }
   }
   static getDerivedStateFromError(error: Error) { return { error } }
-  componentDidCatch(error: Error, info: ErrorInfo) { console.error('GeoTriage render error:', error, info) }
+  componentDidCatch(error: Error, info: ErrorInfo) { console.error('Centinela render error:', error, info) }
   render() {
     if (this.state.error) {
       return (
         <div style={{ padding: 24, color: '#ffb4b4', background: '#071e33', height: '100vh', fontFamily: 'system-ui', overflow: 'auto' }}>
-          <h2>GeoTriage — error de renderizado</h2>
+          <h2>Centinela — error de renderizado</h2>
           <pre style={{ whiteSpace: 'pre-wrap' }}>{this.state.error?.stack ?? String(this.state.error)}</pre>
           <p>Limpie localStorage y recargue.</p>
         </div>
